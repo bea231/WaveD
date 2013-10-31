@@ -93,6 +93,7 @@ ipch/
 
 *.sln
 *.vcproj
+*.vcxproj*
 
 
 # Guidance Automation Toolkit
