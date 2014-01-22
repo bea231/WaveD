@@ -1,21 +1,16 @@
 library(tiff)
 library(waved)
-# load the image
-p <- paste(getwd(),"/some_image.tif", sep="")
-img <- readTIFF(p)
 
-# if R support plotting image, let's plot
-if (exists("rasterImage")) 
-{
-  plot(1:2, type="n")
-  rasterImage(img, 1, 1, 2, 2)
-}
+args<-commandArgs(trailingOnly=TRUE)
+
+# load the image
+img <- readTIFF(args[1])
 
 if (nrow(img) == ncol(img))
 {
   # create a 'noise'-function
   t = seq(from=0, to=nrow(img), len=nrow(img))
-  g = besselJ(t, 0);
+  data.g = besselJ(t, 0);
   # set max-theroshold parameter
   eta = 0.01;
   
@@ -35,15 +30,9 @@ if (nrow(img) == ncol(img))
   }     
   # clamp the results
   img[img > 1] = 1;
-  img[img < 0] = 0;
-  
-  if (exists("rasterImage")) 
-  {
-    plot(1:2, type="n")
-    rasterImage(img, 1, 1, 2, 2)
-  }
+  img[img < 0] = 0; 
   
   # save image to file
-  writeTIFF(img, where="some_image_waved.tif");
+  writeTIFF(img, where=paste(args[1], "_waved.tif"));
 }
 
